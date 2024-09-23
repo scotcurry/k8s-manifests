@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: curryware-dynamic-instrumentation
+  name: curryware-dynamic-instrumentation
+spec:
+  ports:
+  - port: 8090
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: curryware-dynamic-instrumentation
+  type: NodePort

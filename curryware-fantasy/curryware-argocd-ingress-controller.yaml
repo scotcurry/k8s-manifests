@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: curryware-argocd-ingress-controller
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    kubernetes.io/ingresss.class: "nginx"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - ubuntu-microk8s.curryware.org
+      secretName: ingress-tls
+  rules:
+    - host: ubuntu-microk8s.curryware.org
+      http:
+        paths:
+          - path: /argocd
+            pathType: Prefix
+            backend:
+              service:
+                name: agrocd-server
+                port:
+                  name: http

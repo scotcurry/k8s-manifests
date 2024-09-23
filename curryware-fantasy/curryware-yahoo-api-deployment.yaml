@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: curryware-yahoo-api
+    tags.datadoghq.com/env: "prod"
+    tags.datadoghq.com/service: "curryware-curryware-api"
+    tags.datadoghq.com/version: "21"
+  name: curryware-yahoo-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: curryware-yahoo-api
+  template:
+    metadata:
+      labels:
+        app: curryware-yahoo-api
+        tags.datadoghq.com/env: "prod"
+        tags.datadoghq.com/service: "curryware-yahoo-api"
+        tags.datadoghq.com/version: "21"
+        admission.datadoghq.com/enabled: "true"
+#      annotations:
+#        admission.datadoghq.com/python-lib.version: v2.8.2
+    spec:
+      containers:
+        - name: curryware-front-end
+          image: scotcurry4/curryware-yahoo-api:21
+          env:
+          - name: DD_PROFILING_ENABLED
+            value: "true"
+          - name: DD_APPSEC_ENABLED
+            value: "true"
+          - name: DD_LOGS_INJECTION
+            value: "true"
+          - name: DD_RUNTIME_METRICS_ENABLED
+            value: "true"
+          - name: DD_GIT_REPOSITORY_URL
+            value: "github.com/scotcurry/curryware-yahoo-api"
+          - name: CORECLR_ENABLE_PROFILING
+            value: "1"
+          - name: CORECLR_PROFILER
+            value: "{846F5F1C-F9AE-4B07-969E-05C26BC060D8}"
+          - name: CORECLR_PROFILER_PATH
+            value: "/opt/datadog/Datadog.Trace.ClrProfiler.Native.so"
+          - name: DD_DOTNET_TRACER_HOME
+            value: "/opt/datadog"
+          - name: LD_PRELOAD
+            value: "/opt/datadog/continuousprofiler/Datadog.Linux.ApiWrapper.x64.so"

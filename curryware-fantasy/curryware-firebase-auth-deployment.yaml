@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: curryware-firebase-auth
+    tags.datadoghq.com/env: "prod"
+    tags.datadoghq.com/service: "curryware-firebase-auth"
+    tags.datadoghq.com/version: "23"
+  name: curryware-firebase-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: curryware-firebase-auth
+  template:
+    metadata:
+      labels:
+        app: curryware-firebase-auth
+        tags.datadoghq.com/env: "prod"
+        tags.datadoghq.com/service: "curryware-firebase-auth"
+        tags.datadoghq.com/version: "23"
+        admission.datadoghq.com/enabled: "true"
+#      annotations:
+#        admission.datadoghq.com/python-lib.version: v2.8.2
+      annotations:
+        ad.datadoghq.com/curryware-firebase-auth.logs: >-
+          [{
+            "source": "curryware-firebase-auth",
+            "service": "curryware-firebase-auth",
+            "log_processing_rules": [{
+              "type": "multi_line",
+              "name": "log_start_with_date",
+              "pattern": "(\w{3}) (\w{3}) (\d{2}) (\d{2}:\d{2}:\d{2}) (\d{4})"
+            }]
+          }]
+    spec:
+      containers:
+        - name: curryware-firebase-auth
+          image: scotcurry4/curryware-firebase-auth:23
+          env:
+          - name: DD_PROFILING_ENABLED
+            value: "true"
+          - name: DD_APPSEC_ENABLED
+            value: "true"
+          - name: DD_LOGS_INJECTION
+            value: "true"
+          - name: DD_RUNTIME_METRICS_ENABLED
+            value: "true"
+          - name: DD_GIT_REPOSITORY_URL
+            value: "github.com/scotcurry/curryware-firebase-auth"
+          - name: FIREBASE_ADMIN_SDK_JSON
+            valueFrom:
+              secretKeyRef:
+                name: curryware-firebase-auth-secrets
+                key: firebase-admin-sdk-credentials
+          - name: FIREBASE_DATABASE_NAME
+            valueFrom:
+              secretKeyRef:
+                name: curryware-firebase-auth-secrets
+                key: firebase-database-url

@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: curryware-dynamic-instrumentation
+    tags.datadoghq.com/env: "prod"
+    tags.datadoghq.com/service: "curryware-dynamic-instrumentation"
+    tags.datadoghq.com/version: "34"
+  name: curryware-dynamic-instrumentation
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: curryware-dynamic-instrumentation
+  template:
+    metadata:
+      labels:
+        app: curryware-dynamic-instrumentation
+        tags.datadoghq.com/env: "prod"
+        tags.datadoghq.com/service: "curryware-dynamic-instrumentation"
+        tags.datadoghq.com/version: "6"
+        admission.datadoghq.com/enabled: "true"
+      annotations:
+        admission.datadoghq.com/dotnet-lib.version: v2.56.0
+    spec:
+      containers:
+        - name: curryware-dynamic-instrumentation
+          image: scotcurry4/curryware-dynamic-instrumentation:34
+          env:
+          - name: DD_DYNAMIC_INSTRUMENTATION_ENABLED
+            value: "true"
+          - name: DD_LOGS_INJECTION
+            value: "true"
