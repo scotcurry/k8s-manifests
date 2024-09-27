@@ -5,6 +5,9 @@ metadata:
     kubernetes.io/ingresss.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+  labels:
+    app: curryware-nginx-ingress-controller
   name: curryware-nginx-ingress-controller
   namespace: curryware
 spec:
