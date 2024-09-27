@@ -11,4 +11,4 @@ spec:
     targetPort: 8000
   selector:
     app: curryware-front-end
-  type: NodePort
+  type: ClusterIP
