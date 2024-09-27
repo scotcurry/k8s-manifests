@@ -29,6 +29,7 @@ spec:
         enabled: true
         enabledNamespaces:
           - default
+          - curryware
     admissionController:
       enabled: true
     eventCollection:

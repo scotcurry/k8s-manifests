@@ -1,31 +1,33 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: curryware-nginx-ingress-controller
   annotations:
+    kubernetes.io/ingresss.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /
-    kubernetes.io/ingresss.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-passthrough: "true"
+  name: curryware-nginx-ingress-controller
+  namespace: curryware
 spec:
   ingressClassName: nginx
-  tls:
-    - hosts:
-        - ubuntu-microk8s.curryware.org
-      secretName: ingress-tls
   rules:
-    - host: ubuntu-microk8s.curryware.org
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: curryware-front-end
-                port:
-                  number: 80
-          - path: /frontend
-            pathType: Prefix
-            backend:
-              service:
-                name: curryware-front-end
-                port:
-                  number: 80
+  - host: ubuntu-microk8s.curryware.org
+    http:
+      paths:
+      - path: /frontend
+        pathType: Prefix
+        backend:
+          service:
+            name: curryware-front-end
+            port:
+              number: 80
+      - path: /getteams
+        pathType: Prefix
+        backend:
+          service:
+            name: curryware-front-end
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - ubuntu-microk8s.curryware.org
+    secretName: ingress-tls
