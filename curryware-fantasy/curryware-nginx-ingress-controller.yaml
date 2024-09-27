@@ -13,15 +13,8 @@ spec:
   - host: ubuntu-microk8s.curryware.org
     http:
       paths:
-      - path: /frontend
-        pathType: Prefix
-        backend:
-          service:
-            name: curryware-front-end
-            port:
-              number: 80
-      - path: /getteams
-        pathType: Prefix
+      - path: /frontend(/|$)(.*)
+        pathType: ImplementationSpecific
         backend:
           service:
             name: curryware-front-end
