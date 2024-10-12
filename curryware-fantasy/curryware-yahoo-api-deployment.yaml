@@ -5,7 +5,7 @@ metadata:
     app: curryware-yahoo-api
     tags.datadoghq.com/env: "prod"
     tags.datadoghq.com/service: "curryware-curryware-api"
-    tags.datadoghq.com/version: "21"
+    tags.datadoghq.com/version: "37"
   name: curryware-yahoo-api
 spec:
   replicas: 1
@@ -18,14 +18,14 @@ spec:
         app: curryware-yahoo-api
         tags.datadoghq.com/env: "prod"
         tags.datadoghq.com/service: "curryware-yahoo-api"
-        tags.datadoghq.com/version: "21"
+        tags.datadoghq.com/version: "37"
         admission.datadoghq.com/enabled: "true"
 #      annotations:
 #        admission.datadoghq.com/python-lib.version: v2.8.2
     spec:
       containers:
         - name: curryware-front-end
-          image: scotcurry4/curryware-yahoo-api:21
+          image: scotcurry4/curryware-yahoo-api:37
           env:
           - name: DD_PROFILING_ENABLED
             value: "true"
