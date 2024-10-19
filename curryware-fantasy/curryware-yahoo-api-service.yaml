@@ -11,4 +11,4 @@ spec:
     targetPort: 8087
   selector:
     app: curryware-yahoo-api
-  type: ClusterIP
+  type: NodePort
