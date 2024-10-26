@@ -20,8 +20,8 @@ spec:
         tags.datadoghq.com/service: "curryware-yahoo-api"
         tags.datadoghq.com/version: "38"
         admission.datadoghq.com/enabled: "true"
-#      annotations:
-#        admission.datadoghq.com/python-lib.version: v2.8.2
+      annotations:
+        admission.datadoghq.com/dotnet-lib.version: v3.4.0
     spec:
       containers:
         - name: curryware-front-end
