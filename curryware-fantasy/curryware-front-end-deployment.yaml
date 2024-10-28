@@ -40,6 +40,6 @@ spec:
           - name: DD_DYNAMIC_INSTRUMENTATION_ENABLED
             value: "true"
           - name: DD_TRACE_DEBUG
-            value: "true"
+            value: "false"
           - name: DD_TRACE_LOG_FILE
             value: ddtrace_logs.log
