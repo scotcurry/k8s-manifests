@@ -5,7 +5,7 @@ metadata:
     app: curryware-front-end
     tags.datadoghq.com/env: "prod"
     tags.datadoghq.com/service: "curryware-front-end"
-    tags.datadoghq.com/version: "49"
+    tags.datadoghq.com/version: "51"
   name: curryware-front-end
 spec:
   replicas: 1
@@ -18,14 +18,14 @@ spec:
         app: curryware-front-end
         tags.datadoghq.com/env: "prod"
         tags.datadoghq.com/service: "curryware-front-end"
-        tags.datadoghq.com/version: "49"
+        tags.datadoghq.com/version: "51"
         admission.datadoghq.com/enabled: "true"
 #      annotations:
 #        admission.datadoghq.com/python-lib.version: v2.8.2
     spec:
       containers:
         - name: curryware-front-end
-          image: scotcurry4/curryware-front-end:49
+          image: scotcurry4/curryware-front-end:51
           env:
           - name: DD_PROFILING_ENABLED
             value: "true"
