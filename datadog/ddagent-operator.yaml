@@ -27,6 +27,10 @@ spec:
     #   enabled: true
       instrumentation:
         enabled: true
+        libVersions:
+          java: "1"
+          python: "2"
+          dotnet: "3"
         enabledNamespaces:
           - default
           - curryware
