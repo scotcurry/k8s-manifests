@@ -5,11 +5,11 @@ metadata:
 spec:
   capacity:
     storage: 1Gi
-  volumeNode: FileSystem
+  volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce
   storageClassName: local-storage
-  PersistentVolumeReclaimPolicy: Delete
+  persistentVolumeReclaimPolicy: Delete
   # This path was created manually.  Don't know if it has to exist prior to deployment.
   local:
     path: /var/curryware-db
