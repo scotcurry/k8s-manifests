@@ -1,0 +1,9 @@
+apiVersion: apps/v1
+kind: ConfigMap
+metadata:
+  name: curryware-postgres-config
+  labels:
+    app: curryware-postgres
+  data:
+    POSTGRES_DB: postgresdb
+    POSTGRES_USER: admin

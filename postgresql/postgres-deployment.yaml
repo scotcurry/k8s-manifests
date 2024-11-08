@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: curryware-postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: curryware-postgres
+  template:
+    metadata:
+      labels:
+        app: curryware-postgres
+    spec:
+      containers:
+        - name: curryware-postgres
+          image: postgres:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: curryware-postgres-config
+          env:
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+                secretKeyRef:
+                  name: postgres-secrets
+                  key: postgres-password
