@@ -34,6 +34,7 @@ spec:
         enabledNamespaces:
           - default
           - curryware
+          - postgres
     admissionController:
       enabled: true
     eventCollection:
