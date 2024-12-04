@@ -1,3 +1,4 @@
+# https://docs.fuga.cloud/cloud/extra/how-to-setup-https-ingress-for-your-kubernetes-cluster-using-traefik/#step-5-set-up-a-route
 apiVersion: v1
 kind: Service
 metadata:

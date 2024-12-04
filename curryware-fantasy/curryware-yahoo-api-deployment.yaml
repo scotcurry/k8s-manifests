@@ -35,6 +35,10 @@ spec:
             value: "true"
           - name: DD_GIT_REPOSITORY_URL
             value: "github.com/scotcurry/curryware-yahoo-api"
+          - name: KAFKA_BOOTSTRAP_SERVER
+            value: "ubuntu-postgres.curryware.org:9092"
+          ## All of these variables are commented out because we aree using auto-injection.
+          
           # - name: CORECLR_ENABLE_PROFILING
           #   value: "1"
           # # - name: CORECLR_PROFILER
