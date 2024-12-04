@@ -2,6 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: IngressClass
 metadata:
   name: nginx  # Do research if you think you want to change this.
+  namespace: curryware
   labels:
     app.kubernetes.io/component: controller
   annotations:
