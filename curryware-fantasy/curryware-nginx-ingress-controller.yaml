@@ -23,6 +23,13 @@ spec:
             name: curryware-front-end
             port:
               number: 80
+      - path: /api/v1(/|$)(.*)
+        pathType: ImplementationSpecific
+        backend:
+          service:
+            name: curryware-api-controller
+            port:
+              number: 80
   tls:
   - hosts:
     - ubuntu-microk8s.curryware.org
