@@ -23,7 +23,7 @@ spec:
             name: curryware-front-end
             port:
               number: 80
-      - path: /api/v1(/|$)(.*)
+      - path: /cw_api/v1(/|$)(.*)
         pathType: ImplementationSpecific
         backend:
           service:
