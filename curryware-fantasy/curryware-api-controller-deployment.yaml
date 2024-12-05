@@ -5,7 +5,7 @@ metadata:
     app: curryware-api-controller
     tags.datadoghq.com/env: "prod"
     tags.datadoghq.com/service: "curryware-api-controller"
-    tags.datadoghq.com/version: "8"
+    tags.datadoghq.com/version: "9"
   name: curryware-api-controller
 spec:
   replicas: 1
@@ -18,7 +18,7 @@ spec:
         app: curryware-api-controller
         tags.datadoghq.com/env: "prod"
         tags.datadoghq.com/service: "curryware-api-controller"
-        tags.datadoghq.com/version: "8"
+        tags.datadoghq.com/version: "9"
         admission.datadoghq.com/enabled: "true"
 #      annotations:
 #        admission.datadoghq.com/python-lib.version: v2.8.2
