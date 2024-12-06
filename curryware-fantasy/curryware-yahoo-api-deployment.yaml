@@ -7,6 +7,13 @@ metadata:
     tags.datadoghq.com/service: "curryware-curryware-api"
     tags.datadoghq.com/version: "44"
   name: curryware-yahoo-api
+  ad.datadoghq.com/curryware-yahoo-api.logs: |
+    [{
+      "type": "file",
+      "path": "/app/logs/yahoo-api.log"
+      "service": "curryware-yahoo.api"
+      "source": "csharp""
+    }]
 spec:
   replicas: 1
   selector:
