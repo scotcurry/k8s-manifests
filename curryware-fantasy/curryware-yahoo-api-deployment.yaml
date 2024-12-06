@@ -11,8 +11,8 @@ metadata:
   ad.datadoghq.com/curryware-yahoo-api.logs: |
     [{
       "type": "file",
-      "path": "/app/logs/yahoo-api.log"
-      "service": "curryware-yahoo-api"
+      "path": "/app/logs/yahoo-api.log",
+      "service": "curryware-yahoo-api",
       "source": "csharp""
     }]
 spec:
