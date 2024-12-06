@@ -7,6 +7,7 @@ metadata:
     tags.datadoghq.com/service: "curryware-curryware-api"
     tags.datadoghq.com/version: "45"
   name: curryware-yahoo-api
+  # See logging https://docs.datadoghq.com/containers/kubernetes/log/?tab=datadogoperator#example-log-autodiscovery-annotations
   ad.datadoghq.com/curryware-yahoo-api.logs: |
     [{
       "type": "file",
