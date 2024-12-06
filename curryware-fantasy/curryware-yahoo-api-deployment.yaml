@@ -13,7 +13,7 @@ metadata:
       "type": "file",
       "path": "/app/logs/yahoo-api.log",
       "service": "curryware-yahoo-api",
-      "source": "csharp""
+      "source": "csharp"
     }]
 spec:
   replicas: 1
