@@ -5,7 +5,7 @@ metadata:
     app: curryware-yahoo-api
     tags.datadoghq.com/env: "prod"
     tags.datadoghq.com/service: "curryware-curryware-api"
-    tags.datadoghq.com/version: "44"
+    tags.datadoghq.com/version: "45"
   name: curryware-yahoo-api
   ad.datadoghq.com/curryware-yahoo-api.logs: |
     [{
@@ -25,14 +25,14 @@ spec:
         app: curryware-yahoo-api
         tags.datadoghq.com/env: "prod"
         tags.datadoghq.com/service: "curryware-yahoo-api"
-        tags.datadoghq.com/version: "44"
+        tags.datadoghq.com/version: "45"
         admission.datadoghq.com/enabled: "true"
       annotations:
         admission.datadoghq.com/dotnet-lib.version: v3.4.0
     spec:
       containers:
         - name: curryware-front-end
-          image: scotcurry4/curryware-yahoo-api:44
+          image: scotcurry4/curryware-yahoo-api:45
           env:
           - name: DD_APPSEC_ENABLED
             value: "true"
