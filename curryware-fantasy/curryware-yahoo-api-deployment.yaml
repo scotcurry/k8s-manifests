@@ -5,7 +5,7 @@ metadata:
     app: curryware-yahoo-api
     tags.datadoghq.com/env: "prod"
     tags.datadoghq.com/service: "curryware-curryware-api"
-    tags.datadoghq.com/version: "49"
+    tags.datadoghq.com/version: "52"
   name: curryware-yahoo-api
   # See logging https://docs.datadoghq.com/containers/kubernetes/log/?tab=datadogoperator#example-log-autodiscovery-annotations
   annotations:
@@ -27,14 +27,14 @@ spec:
         app: curryware-yahoo-api
         tags.datadoghq.com/env: "prod"
         tags.datadoghq.com/service: "curryware-yahoo-api"
-        tags.datadoghq.com/version: "49"
+        tags.datadoghq.com/version: "52"
         admission.datadoghq.com/enabled: "true"
       annotations:
         admission.datadoghq.com/dotnet-lib.version: v3.4.0
     spec:
       containers:
         - name: curryware-front-end
-          image: scotcurry4/curryware-yahoo-api:49
+          image: scotcurry4/curryware-yahoo-api:52
           env:
           - name: DD_APPSEC_ENABLED
             value: "true"
