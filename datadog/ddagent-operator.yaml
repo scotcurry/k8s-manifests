@@ -22,6 +22,12 @@ spec:
     clusterAgent:
       image:
         name: gcr.io/datadoghq/cluster-agent:latest
+    nodeAgent:
+      containers:
+        nodeAgent:
+          eventCollection:
+            - name: DD_IGNORE_AUTOCONF
+              value: "redisdb"
   features:
     apm:
     #   enabled: true
