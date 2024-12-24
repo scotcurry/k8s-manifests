@@ -24,8 +24,8 @@ spec:
         name: gcr.io/datadoghq/cluster-agent:latest
     nodeAgent:
       containers:
-        nodeAgent:
-          eventCollection:
+        agent:
+          env:
             - name: DD_IGNORE_AUTOCONF
               value: "redisdb"
   features:
@@ -65,7 +65,7 @@ spec:
       hostBenchmarks:
         enabled: true
     sbom:
-      conatinerImage:
+      containerImage:
         enabled: true
-      hostBenchmarks:
+      host:
         enabled: true
