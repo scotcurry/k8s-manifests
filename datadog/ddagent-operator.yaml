@@ -64,3 +64,8 @@ spec:
       enabled: true
       hostBenchmarks:
         enabled: true
+    sbom:
+      conatinerImage:
+        enabled: true
+      hostBenchmarks:
+        enabled: true
