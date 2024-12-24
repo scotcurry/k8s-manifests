@@ -5,7 +5,7 @@ metadata:
     app: curryware-yahoo-api
     tags.datadoghq.com/env: "prod"
     tags.datadoghq.com/service: "curryware-curryware-api"
-    tags.datadoghq.com/version: "57"
+    tags.datadoghq.com/version: "56"
   name: curryware-yahoo-api
   # See logging https://docs.datadoghq.com/containers/kubernetes/log/?tab=datadogoperator#example-log-autodiscovery-annotations
   annotations:
@@ -27,14 +27,15 @@ spec:
         app: curryware-yahoo-api
         tags.datadoghq.com/env: "prod"
         tags.datadoghq.com/service: "curryware-yahoo-api"
-        tags.datadoghq.com/version: "57"
+        tags.datadoghq.com/version: "56"
         admission.datadoghq.com/enabled: "true"
       annotations:
         admission.datadoghq.com/dotnet-lib.version: v3.7.0
+        ad.datadoghq.com/tags: '{"kafka": "producer"}'
     spec:
       containers:
         - name: curryware-front-end
-          image: scotcurry4/curryware-yahoo-api:57
+          image: scotcurry4/curryware-yahoo-api:56
           env:
           - name: DD_APPSEC_ENABLED
             value: "true"
@@ -50,16 +51,18 @@ spec:
             value: "github.com/scotcurry/curryware-yahoo-api"
           - name: KAFKA_BOOTSTRAP_SERVER
             value: "ubuntu-postgres.curryware.org:9092"
+      # To understand how tracing works, you need to read (tracing library is right above this link) 
+      # https://docs.datadoghq.com/tracing/trace_collection/automatic_instrumentation/single-step-apm/?tab=kubernetespreview
           ## All of these variables are commented out if using auto-injection.
-          - name: CORECLR_ENABLE_PROFILING
-            value: "1"
-          - name: CORECLR_PROFILER
-            value: "{846F5F1C-F9AE-4B07-969E-05C26BC060D8}"
-          - name: CORECLR_PROFILER_PATH
-            value: "/opt/datadog/Datadog.Trace.ClrProfiler.Native.so"
-          - name: DD_DOTNET_TRACER_HOME
-            value: "/opt/datadog"
-          - name: LD_PRELOAD
-            value: "/opt/datadog/continuousprofiler/Datadog.Linux.ApiWrapper.x64.so"
-          - name: DD_PROFILING_ENABLED
-            value: "true"
+          # - name: CORECLR_ENABLE_PROFILING
+          #   value: "1"
+          # - name: CORECLR_PROFILER
+          #   value: "{846F5F1C-F9AE-4B07-969E-05C26BC060D8}"
+          # - name: CORECLR_PROFILER_PATH
+          #   value: "/opt/datadog/Datadog.Trace.ClrProfiler.Native.so"
+          # - name: DD_DOTNET_TRACER_HOME
+          #   value: "/opt/datadog"
+          # - name: LD_PRELOAD
+          #   value: "/opt/datadog/continuousprofiler/Datadog.Linux.ApiWrapper.x64.so"
+          # - name: DD_PROFILING_ENABLED
+          #   value: "true"
