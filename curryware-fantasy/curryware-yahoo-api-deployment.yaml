@@ -51,6 +51,8 @@ spec:
             value: "github.com/scotcurry/curryware-yahoo-api"
           - name: KAFKA_BOOTSTRAP_SERVER
             value: "ubuntu-postgres.curryware.org:9092"
+          - name: DD_DATA_STREAMS_ENABLED
+            value: "true"
       # To understand how tracing works, you need to read (tracing library is right above this link) 
       # https://docs.datadoghq.com/tracing/trace_collection/automatic_instrumentation/single-step-apm/?tab=kubernetespreview
           ## All of these variables are commented out if using auto-injection.
