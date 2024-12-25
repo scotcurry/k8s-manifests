@@ -30,10 +30,11 @@ spec:
               value: "redisdb"
   features:
     apm:
-      enabled: true
-      enabledNamespaces:
-        - default
-        - curryware
+      instrumentation:
+        enabled: true
+        enabledNamespaces:
+          - default
+          - curryware
     admissionController:
       enabled: true
     eventCollection:
