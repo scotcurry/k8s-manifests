@@ -19,9 +19,8 @@ spec:
         tags.datadoghq.com/env: "prod"
         tags.datadoghq.com/service: "curryware-front-end"
         tags.datadoghq.com/version: "64"
-        admission.datadoghq.com/enabled: "true"
-#      annotations:
-#        admission.datadoghq.com/python-lib.version: v2.8.2
+      annotations:
+        admission.datadoghq.com/python-lib.version: v2.18.1
     spec:
       containers:
         - name: curryware-front-end

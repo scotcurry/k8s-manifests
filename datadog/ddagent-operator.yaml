@@ -30,17 +30,10 @@ spec:
               value: "redisdb"
   features:
     apm:
-    #   enabled: true
-      instrumentation:
-        enabled: true
-        libVersions:
-          java: "1"
-          python: "2"
-          dotnet: "3"
-        enabledNamespaces:
-          - default
-          - curryware
-          - postgres
+      enabled: true
+      enabledNamespaces:
+        - default
+        - curryware
     admissionController:
       enabled: true
     eventCollection:

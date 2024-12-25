@@ -20,6 +20,8 @@ spec:
         tags.datadoghq.com/service: "curryware-java"
         tags.datadoghq.com/version: "14"
         admission.datadoghq.com/enabled: "true"
+        annotations:
+          admission.datadoghq.com/java-lib.version: "1.44.1"
     spec:
       containers:
         - name: curryware-java
