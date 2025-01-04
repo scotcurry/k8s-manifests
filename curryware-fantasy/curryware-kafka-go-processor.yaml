@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: curryware-kafka-go-processor
+    tags.datadoghq.com/env: "prod"
+    tags.datadoghq.com/service: "curryware-kafka-go-processor"
+    tags.datadoghq.com/version: "65"
+  name: curryware-kafka-go-processor
+spec:
+  volumes:
+    - hostPath: 
+        path: /var/run/datadog
+      name: apmsocketpath
+  replicas: 1
+  selector:
+    matchLabels:
+      app: curryware-kafka-go-processor
+  template:
+    metadata:
+      labels:
+        app: curryware-kafka-go-processor
+        tags.datadoghq.com/env: "prod"
+        tags.datadoghq.com/service: "curryware-kafka-go-processor"
+        tags.datadoghq.com/version: "65"
+        admission.datadoghq.com/enabled: "true"
+      annotations:
+        admission.datadoghq.com/dotnet-lib.version: v3.7.0
+        ad.datadoghq.com/tags: '{"kafka": "consumer"}'
+    spec:
+      containers:
+        - name: curryware-kafka-go-processor
+          image: scotcurry4/curryware-kafka-go-processor:65
+          env:
+          - name: DD_APPSEC_ENABLED
+            value: "true"
+          - name: DD_IAST_ENABLED
+            value: "true"
+          - name: DD_APPSEC_SCA_ENABLED
+            value: "true"  
+          - name: DD_LOGS_INJECTION
+            value: "true"
+          - name: DD_RUNTIME_METRICS_ENABLED
+            value: "true"
+          - name: DD_GIT_REPOSITORY_URL
+            value: "github.com/scotcurry/curryware-kafka-go-processor"
+          - name: KAFKA_BOOTSTRAP_SERVER
+            value: "kafka.curryware.org:9092"
+          - name: DD_DATA_STREAMS_ENABLED
+            value: "true"
+          - name: POSTGRES_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: curryware-postgres-secrets
+                key: postgres-username
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: curryware-postgres-secrets
+                key: postgres-password
+          volumeMounts:
+            - name: apmsocketpath
+              mountPath: /var/run/datadog
