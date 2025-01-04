@@ -37,6 +37,9 @@ spec:
           - curryware
     admissionController:
       enabled: true
+      hostPortConfig:
+        enabled: true
+        hostPort: 8126
     eventCollection:
       collectKubernetesEvents: true
     npm:
