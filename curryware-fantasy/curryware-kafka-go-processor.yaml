@@ -5,7 +5,7 @@ metadata:
     app: curryware-kafka-go-processor
     tags.datadoghq.com/env: "prod"
     tags.datadoghq.com/service: "curryware-kafka-go-processor"
-    tags.datadoghq.com/version: "8"
+    tags.datadoghq.com/version: "9"
   name: curryware-kafka-go-processor
 spec:
   volumes:
@@ -22,14 +22,14 @@ spec:
         app: curryware-kafka-go-processor
         tags.datadoghq.com/env: "prod"
         tags.datadoghq.com/service: "curryware-kafka-go-processor"
-        tags.datadoghq.com/version: "8"
+        tags.datadoghq.com/version: "9"
         admission.datadoghq.com/enabled: "true"
       annotations:
         ad.datadoghq.com/tags: '{"kafka": "consumer"}'
     spec:
       containers:
         - name: curryware-kafka-go-processor
-          image: scotcurry4/curryware-kafka-go-processor:65
+          image: scotcurry4/curryware-kafka-go-processor:9
           env:
           - name: DD_APPSEC_ENABLED
             value: "true"
