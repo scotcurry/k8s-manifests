@@ -59,6 +59,6 @@ spec:
               secretKeyRef:
                 name: curryware-postgres-secrets
                 key: postgres-password
-          volumeMounts:
-            - name: apmsocketpath
-              mountPath: /var/run/datadog
+      volumeMounts:
+        - name: apmsocketpath
+          mountPath: /var/run/datadog
