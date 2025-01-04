@@ -25,7 +25,6 @@ spec:
         tags.datadoghq.com/version: "8"
         admission.datadoghq.com/enabled: "true"
       annotations:
-        admission.datadoghq.com/dotnet-lib.version: v3.7.0
         ad.datadoghq.com/tags: '{"kafka": "consumer"}'
     spec:
       containers:
@@ -47,6 +46,8 @@ spec:
           - name: KAFKA_BOOTSTRAP_SERVER
             value: "kafka.curryware.org:9092"
           - name: DD_DATA_STREAMS_ENABLED
+            value: "true"
+          - name: DD_PROFILING_ENABLED
             value: "true"
           - name: POSTGRES_USERNAME
             valueFrom:
