@@ -8,10 +8,6 @@ metadata:
     tags.datadoghq.com/version: "10"
   name: curryware-kafka-go-processor
 spec:
-  volumes:
-    - hostPath: 
-        path: /var/run/datadog
-      name: apmsocketpath
   replicas: 1
   selector:
     matchLabels:
@@ -65,6 +61,10 @@ spec:
               secretKeyRef:
                 name: curryware-postgres-secrets
                 key: postgres-password
-      volumeMounts:
-        - name: apmsocketpath
-          mountPath: /var/run/datadog
+      # volumeMounts:
+      #   - name: apmsocketpath
+      #     mountPath: /var/run/datadog
+      volumes:
+      - hostPath: 
+        path: /var/run/datadog
+        name: apmsocketpath
