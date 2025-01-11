@@ -1,0 +1,52 @@
+# If you make changes restart the agent with sudo service datadog-agent restart
+# Agent Configuration
+api_key: <api_key>  # https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L11
+app_key: <app_key>  # <Optional> - might be scenarios this is required.  https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L13
+site: datadoghq.com # If not in US1, this changes. https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L20
+# proxy: Lots of environments need this. https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L42
+tags: # https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L128
+  - team: curryware
+  - server_location: orchard_lake
+env: prod
+# scrubber: <Optional> - Only if you think there might be sensitive data in a flare sent to Datadog. https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L484
+inventories_configuration_enabled: true # <Default, only check if not getting this info> https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L511
+
+# Logs Configuration
+logs_enabled: true # https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L898
+logs_config:
+  # processing_rules: This is where client side log exclusion rules can be configured. https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L932
+  #   - type: include_at_match  # https://docs.datadoghq.com/agent/logs/advanced_log_collection/#global-processing-rules
+  #     name: include_at_match
+  #     pattern: "curryware"
+
+  # APM Configuration
+  apm_config: # https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L1042
+    enabled: true
+    # apm_dd_url: <Optional> - Might need this if using a proxy.
+    # obfuscation: https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L1042
+    #   credit_cards: See link for more details.
+    ignore_resources: # Specific to curryware and all of the Flask resources I'm tired of seeing.
+
+# Process Configuration
+process_config: # https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L1517.  Documentation https://docs.datadoghq.com/graphing/infrastructure/process/
+  process_collection: # https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L1533
+    enabled: true #
+
+# Agent Logging Configuration - Probably not needed for most scenarios.
+log_level: info # This is for the Datadog Agetn logs. https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L2478
+
+######################################################
+#    Container Configuration - Lines 2478 - 3761     #
+######################################################
+
+# Network Device Configuration 
+network_devices: # https://github.com/DataDog/datadog-agent/blob/5d851837e11f00b61cb14b4fb574f1b68478205c/pkg/config/config_template.yaml#L3754
+  autodiscovery:
+    configs:
+      - network_address: 192.168.11.0/24
+        snmp_version: 2
+        snmp_community: public
+
+# Remote Configuration - This is not in the example config file.  https://docs.datadoghq.com/agent/remote_config/?tab=configurationyamlfile
+remote_configuration:
+  enabled: true

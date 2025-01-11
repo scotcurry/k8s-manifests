@@ -61,6 +61,12 @@ spec:
               secretKeyRef:
                 name: curryware-postgres-secrets
                 key: postgres-password
+          - name: POSTGRES_DATABASE
+            value: currywarefantasy
+          - name: POSTGRES_SERVER
+            value: "postgres.curryware.org"
+          - name: POSTGRES_PORT
+            value: "5432"
       # volumeMounts:
       #   - name: apmsocketpath
       #     mountPath: /var/run/datadog

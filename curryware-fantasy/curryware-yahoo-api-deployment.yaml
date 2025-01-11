@@ -63,6 +63,12 @@ spec:
               secretKeyRef:
                 name: curryware-postgres-secrets
                 key: postgres-password
+          - name: POSTGRES_DATABASE
+            value: currywarefantasy
+          - name: POSTGRES_SERVER
+            value: "postgres.curryware.org"
+          - name: POSTGRES_PORT
+            value: "5432"
       # To understand how tracing works, you need to read (tracing library is right above this link) 
       # https://docs.datadoghq.com/tracing/trace_collection/automatic_instrumentation/single-step-apm/?tab=kubernetespreview
           ## All of these variables are commented out if using auto-injection.
