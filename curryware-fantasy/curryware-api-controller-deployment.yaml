@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: curryware-api-controller
+    tags.datadoghq.com/env: "prod"
+    tags.datadoghq.com/service: "curryware-api-controller"
+    tags.datadoghq.com/version: "14"
+  name: curryware-api-controller
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: curryware-api-controller
+  template:
+    metadata:
+      labels:
+        app: curryware-api-controller
+        tags.datadoghq.com/env: "prod"
+        tags.datadoghq.com/service: "curryware-api-controller"
+        tags.datadoghq.com/version: "14"
+        admission.datadoghq.com/enabled: "true"
+#      annotations:
+#        admission.datadoghq.com/python-lib.version: v2.8.2
+    spec:
+      containers:
+        - name: curryware-api-controller
+          image: scotcurry4/curryware-api-controller:14
+          env:
+          - name: DD_PROFILING_ENABLED
+            value: "true"
+          - name: DD_APPSEC_ENABLED
+            value: "true"
+          - name: DD_LOGS_INJECTION
+            value: "true"
+          - name: DD_RUNTIME_METRICS_ENABLED
+            value: "true"
+          - name: DD_GIT_REPOSITORY_URL
+            value: "github.com/scotcurry/curryware-api-controller"
+          - name: DD_DYNAMIC_INSTRUMENTATION_ENABLED
+            value: "true"
+          - name: DD_TRACE_DEBUG
+            value: "false"
+          - name: DD_TRACE_LOG_FILE
+            value: ddtrace_logs.log
