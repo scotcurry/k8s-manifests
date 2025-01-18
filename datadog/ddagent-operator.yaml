@@ -28,8 +28,16 @@ spec:
           env:
             - name: DD_IGNORE_AUTOCONF
               value: "redisdb"
+        trace-agent:
+          env:
+            - name: DD_LOG_LEVEL
+              value: "debug"
+  clusterAgent:
   features:
     apm:
+      enabled: true
+      unixDomainSocketConfig:
+        path: /var/run/datadog/apm.socket
       instrumentation:
         enabled: true
         enabledNamespaces:
