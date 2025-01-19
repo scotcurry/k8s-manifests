@@ -36,8 +36,6 @@ spec:
   features:
     apm:
       enabled: true
-      unixDomainSocketConfig:
-        path: /var/run/datadog/apm.socket
       instrumentation:
         enabled: true
         enabledNamespaces:
