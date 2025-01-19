@@ -72,5 +72,5 @@ spec:
       #     mountPath: /var/run/datadog
       volumes:
       - hostPath: 
-        path: /var/run/datadog
-        name: apm.socket
+          path: /var/run/datadog
+        name: apmsocketpath
