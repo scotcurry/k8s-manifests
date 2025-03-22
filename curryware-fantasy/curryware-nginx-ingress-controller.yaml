@@ -28,7 +28,7 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-            name: curryware-api-controller
+            name: curryware-yahoo-api
             port:
               number: 80
   tls:
