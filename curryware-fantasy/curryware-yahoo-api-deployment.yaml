@@ -36,7 +36,11 @@ spec:
       containers:
         - name: curryware-front-end
           image: scotcurry4/curryware-yahoo-api:75
+          ports: 
+            - containerPort: 8087
           env:
+          - name: ASPNETCORE_URLS
+            value: "http://*:8087"
           - name: DD_APPSEC_ENABLED
             value: "true"
           - name: DD_IAST_ENABLED
