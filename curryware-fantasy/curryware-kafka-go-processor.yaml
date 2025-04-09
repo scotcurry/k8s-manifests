@@ -43,8 +43,6 @@ spec:
             value: "true"
           - name: DD_RUNTIME_METRICS_ENABLED
             value: "true"
-          - name: DD_GIT_REPOSITORY_URL
-            value: "github.com/scotcurry/curryware-kafka-go-processor"
           - name: KAFKA_BOOTSTRAP_SERVER
             value: "kafka.curryware.org:9092"
           - name: DD_DATA_STREAMS_ENABLED
