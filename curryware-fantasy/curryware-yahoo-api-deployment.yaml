@@ -39,6 +39,8 @@ spec:
           ports: 
             - containerPort: 8087
           env:
+          - name: DD_DYNAMIC_INSTRUMENTATION_ENABLED
+            value: "true"
           - name: DD_APPSEC_ENABLED
             value: "true"
           - name: DD_IAST_ENABLED
