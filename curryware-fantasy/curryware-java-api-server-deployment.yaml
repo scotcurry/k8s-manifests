@@ -5,7 +5,7 @@ metadata:
     app: curryware-java-api-server
     tags.datadoghq.com/env: "prod"
     tags.datadoghq.com/service: "curryware-java-api-server"
-    tags.datadoghq.com/version: "8"
+    tags.datadoghq.com/version: "9"
   name: curryware-java-api-server
 spec:
   replicas: 1
@@ -18,7 +18,7 @@ spec:
         app: curryware-java-api-server
         tags.datadoghq.com/env: "prod"
         tags.datadoghq.com/service: "curryware-java-api-server"
-        tags.datadoghq.com/version: "8"
+        tags.datadoghq.com/version: "9"
         admission.datadoghq.com/enabled: "true"
       annotations:
         admission.datadoghq.com/java-lib.version: v1.47.3
@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
         - name: curryware-java-api-server
-          image: scotcurry4/curryware-java-api-server:8
+          image: scotcurry4/curryware-java-api-server:9
           ports: 
             - containerPort: 8080
           env:
