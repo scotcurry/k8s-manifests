@@ -30,7 +30,7 @@ spec:
         tags.datadoghq.com/version: "86"
         admission.datadoghq.com/enabled: "true"
       annotations:
-        admission.datadoghq.com/dotnet-lib.version: v3.7.0
+        admission.datadoghq.com/dotnet-lib.version: v3.9.0
         ad.datadoghq.com/tags: '{"kafka": "producer"}'
     spec:
       containers:
