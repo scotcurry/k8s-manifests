@@ -5,7 +5,7 @@ metadata:
     app: curryware-yahoo-api
     tags.datadoghq.com/env: "prod"
     tags.datadoghq.com/service: "curryware-curryware-api"
-    tags.datadoghq.com/version: "93"
+    tags.datadoghq.com/version: "94"
   name: curryware-yahoo-api
   # See logging https://docs.datadoghq.com/containers/kubernetes/log/?tab=datadogoperator#example-log-autodiscovery-annotations
   annotations:
@@ -27,7 +27,7 @@ spec:
         app: curryware-yahoo-api
         tags.datadoghq.com/env: "prod"
         tags.datadoghq.com/service: "curryware-yahoo-api"
-        tags.datadoghq.com/version: "93"
+        tags.datadoghq.com/version: "94"
         admission.datadoghq.com/enabled: "true"
       annotations:
         admission.datadoghq.com/dotnet-lib.version: v3.9.0
@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
         - name: curryware-front-end
-          image: scotcurry4/curryware-yahoo-api:93
+          image: scotcurry4/curryware-yahoo-api:94
           ports: 
             - containerPort: 8087
           env:
