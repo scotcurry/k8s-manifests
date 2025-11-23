@@ -23,6 +23,8 @@ spec:
       image:
         name: gcr.io/datadoghq/cluster-agent:latest
     nodeAgent:
+      image:
+        name: gcr.io/datadoghq/agent:latest
       containers:
         agent:
           env:
