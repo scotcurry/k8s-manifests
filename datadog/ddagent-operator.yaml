@@ -30,6 +30,10 @@ spec:
           env:
             - name: DD_IGNORE_AUTOCONF
               value: "redisdb"
+            - name: DD_OBSERVABILITY_PIPELINES_WORKER_LOGS_ENABLED
+              value: "true"
+            - name: DD_OBSERVABILITY_PIPELINES_WORKER_LOGS_URL
+              value: "http://opworker.curryware.org:8282"
         trace-agent:
           env:
             - name: DD_LOG_LEVEL
