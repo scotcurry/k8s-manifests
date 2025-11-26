@@ -5,7 +5,7 @@ metadata:
     app: curryware-kafka-go-processor
     tags.datadoghq.com/env: "prod"
     tags.datadoghq.com/service: "curryware-kafka-go-processor"
-    tags.datadoghq.com/version: "46"
+    tags.datadoghq.com/version: "47"
   name: curryware-kafka-go-processor
 spec:
   replicas: 1
@@ -18,14 +18,14 @@ spec:
         app: curryware-kafka-go-processor
         tags.datadoghq.com/env: "prod"
         tags.datadoghq.com/service: "curryware-kafka-go-processor"
-        tags.datadoghq.com/version: "46"
+        tags.datadoghq.com/version: "47"
         admission.datadoghq.com/enabled: "true"
       annotations:
         ad.datadoghq.com/tags: '{"kafka": "consumer"}'
     spec:
       containers:
         - name: curryware-kafka-go-processor
-          image: scotcurry4/curryware-kafka-go-processor:46
+          image: scotcurry4/curryware-kafka-go-processor:47
           # Documentation Link: https://docs.datadoghq.com/containers/kubernetes/apm/?tab=unixdomainsocketuds
           volumeMounts:
             - name: apmsocketpath
