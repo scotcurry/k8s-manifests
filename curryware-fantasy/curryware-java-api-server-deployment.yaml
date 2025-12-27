@@ -21,8 +21,8 @@ spec:
         tags.datadoghq.com/version: "21"
         admission.datadoghq.com/enabled: "true"
       annotations:
-        admission.datadoghq.com/java-lib.version: v1.47.3
-        ad.datadoghq.com/tags: '{"java": "front-end-api-server"}'
+        admission.datadoghq.com/java-lib.version: v1.57.0
+        ad.datadoghq.com/tags: '{"java": "curryware-java-api-server"}'
     spec:
       containers:
         - name: curryware-java-api-server
@@ -42,6 +42,8 @@ spec:
             value: "true"
           - name: DD_RUNTIME_METRICS_ENABLED
             value: "true"
+          - name: DD_DBM_PROPAGATION_MODE
+            value: "full"
           - name: POSTGRES_USERNAME
             valueFrom:
               secretKeyRef:
