@@ -75,3 +75,5 @@ spec:
         enabled: true
       host:
         enabled: true
+    kubeStateMetricsCore:
+      enabled: true   
