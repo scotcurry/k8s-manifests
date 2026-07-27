@@ -1,0 +1,26 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: traefik
+  namespace: curryware
+spec:
+  gatewayClassName: traefik
+
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 8000
+      hostname: "ubuntu-microk8s.curryware.org"
+      allowedRoutes:
+        namespaces:
+          from: Same
+
+    - name: https
+      protocol: HTTPS
+      port: 8443
+      hostname: "ubuntu-microk8s.curryware.org"
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: ingress-tls
+            namespace: curryware
