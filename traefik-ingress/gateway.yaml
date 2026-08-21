@@ -1,0 +1,35 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: traefik-gateway
+  namespace: ingress
+spec:
+  gatewayClassName: traefik
+
+  listeners:
+    - name: http
+      protocol: HTTP
+      port: 8000  # Has to match the container port described in the daemonset description.
+      hostname: "ubuntu-microk8s.curryware.org"
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              shared-gateway-access: "true"
+
+    - name: https
+      protocol: HTTPS
+      port: 8443 # Has to match the container port described in the daemonset description.
+      hostname: "ubuntu-microk8s.curryware.org"
+      allowedRoutes:
+        namespaces:
+          from: Selector
+          selector:
+            matchLabels:
+              shared-gateway-access: "true"
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: ubuntu-microk8s-tls
+            namespace: ingress

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: curryware
+  # This is required to all the gateway (in the ingress namespace) to handle requests from this namesapce.
+  labels:
+    shared-gateway-access: "true"
