@@ -1,0 +1,20 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-staging
+  namespace: ingress
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: scotcurry4@gmail.com
+    profile: tlsserver
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - name: traefik-gateway
+                namespace: ingress
+                kind: Gateway
+                group: gateway.networking.k8s.io
