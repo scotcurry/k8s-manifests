@@ -1,0 +1,12 @@
+apiVersion: certmanager.io/v1
+kind: Certificate
+metadata:
+  name: letsencrypt-certificate
+  namespace: ingress
+spec:
+  secretName: letsencrypt-certificate-prod
+  issuerRef:
+    name: letsencrypt-production
+    kind: Issuer
+  dnsNames:
+    - ubuntu-microk8s.curryware.org

@@ -1,0 +1,97 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: curryware-nflverse-stats
+  labels:
+    app.kubernetes.io/name: curryware-nflverse
+    app.kubernetes.io/component: stats-load
+    tags.datadoghq.com/env: prod
+    tags.datadoghq.com/service: curryware-nflverse
+    tags.datadoghq.com/version: "1"
+spec:
+  # Daily at 12:00 UTC. nflverse publishes new games and stat corrections over the
+  # following days, and a run with nothing new changes no rows.
+  schedule: "40 8,20 * * *"
+  timeZone: Etc/UTC
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 3600
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 900
+      ttlSecondsAfterFinished: 86400
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: curryware-nflverse
+            app.kubernetes.io/component: stats-load
+            # Unified service tagging for Datadog single step instrumentation.
+            tags.datadoghq.com/env: prod
+            tags.datadoghq.com/service: curryware-nflverse
+            tags.datadoghq.com/version: "1"
+          annotations:
+            # The JSON log lines on stdout are parsed as Python logs.
+            ad.datadoghq.com/stats.logs: '[{"source": "python", "service": "curryware-nflverse"}]'
+        spec:
+          restartPolicy: Never
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: stats
+              image: docker.io/scotcurry4/curryware-nflverse:1
+              imagePullPolicy: IfNotPresent
+              args: ["stats"]
+              envFrom:
+                - secretRef:
+                    name: curryware-postgres
+              env:
+                - name: POSTGRES_HOST
+                  value: postgres.curryware.org
+                - name: POSTGRES_USER
+                  valueFrom:
+                    secretKeyRef:
+                        name: curryware-postgres-secrets
+                        key: postgres-username
+                - name: POSTGRES_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: curryware-postgres-secrets
+                      key: postgres-password
+                # Adds dd.trace_id and dd.span_id to each JSON log line, linking
+                # logs to the run's trace.
+                - name: DD_LOGS_INJECTION
+                  value: "true"
+                - name: DD_ENV
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['tags.datadoghq.com/env']
+                - name: DD_SERVICE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['tags.datadoghq.com/service']
+                - name: DD_VERSION
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['tags.datadoghq.com/version']
+              resources:
+                requests:
+                  cpu: 250m
+                  memory: 512Mi
+                limits:
+                  memory: 1Gi
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+          volumes:
+            - name: tmp
+              emptyDir: {}
