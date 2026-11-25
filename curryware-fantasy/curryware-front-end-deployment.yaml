@@ -35,7 +35,7 @@ spec:
           - name: DD_RUNTIME_METRICS_ENABLED
             value: "true"
           - name: DD_GIT_REPOSITORY_URL
-            value: "github.com/scotcurry/front-end"
+            value: "github.com/scotcurry/curryware-front-end"
           - name: DD_DYNAMIC_INSTRUMENTATION_ENABLED
             value: "true"
           - name: DD_TRACE_DEBUG
