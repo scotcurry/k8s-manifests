@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: ingress
+  labels:
+    # Required for the traefik-gateway listeners (gateway.yaml) to accept HTTPRoutes from this
+    # namespace. cert-manager creates its HTTP-01 challenge HTTPRoutes here, so without this label
+    # Let's Encrypt certificates for ubuntu-microk8s.curryware.org cannot be issued or renewed.
+    # Label values must be strings, so keep "true" quoted.
+    shared-gateway-access: "true"
+  annotations:
+    # This namespace holds the Traefik gateway and its TLS secret. Never let Argo CD delete it
+    # if this manifest is removed or the Application is pruned.
+    argocd.argoproj.io/sync-options: Delete=false

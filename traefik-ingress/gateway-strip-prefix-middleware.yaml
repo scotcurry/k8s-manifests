@@ -2,6 +2,9 @@ apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: strip-cwapi-java-prefix
+  # HTTPRoute extensionRefs only resolve within the route's own namespace, and the
+  # routes that use this Middleware live in curryware.
+  namespace: curryware
 spec:
   stripPrefix:
     prefixes:
