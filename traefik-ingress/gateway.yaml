@@ -4,6 +4,10 @@ metadata:
   name: traefik-gateway
   namespace: ingress
   annotations:
+    # cert-manager creates the ubuntu-microk8s-tls Certificate from this annotation.
+    # To debug HTTP-01 validation without production rate limits, switch it to
+    # letsencrypt-staging (cert-issuer-staging.yaml); staging certs are NOT
+    # browser-trusted, so switch back as soon as a staging issuance succeeds.
     cert-manager.io/issuer: letsencrypt-production
 spec:
   gatewayClassName: traefik

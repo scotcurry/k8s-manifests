@@ -1,0 +1,27 @@
+# Let's Encrypt STAGING issuer. Same as cert-issuer.yaml except for the ACME server and
+# the account key secret. Staging has much higher rate limits, so it is safe for
+# debugging HTTP-01 validation, but its certificates are NOT trusted by browsers.
+#
+# To use it, set the gateway's cert-manager.io/issuer annotation (gateway.yaml) to
+# letsencrypt-staging. Switch back to letsencrypt-production once validation works,
+# or the site keeps serving an untrusted certificate.
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: letsencrypt-staging
+  namespace: ingress
+spec:
+  acme:
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    email: scotcurry4@gmail.com
+    profile: tlsserver
+    privateKeySecretRef:
+      name: letsencrypt-staging
+    solvers:
+      - http01:
+          gatewayHTTPRoute:
+            parentRefs:
+              - name: traefik-gateway
+                namespace: ingress
+                kind: Gateway
+                group: gateway.networking.k8s.io
