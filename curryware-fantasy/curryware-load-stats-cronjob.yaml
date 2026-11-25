@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/component: stats-load
     tags.datadoghq.com/env: prod
     tags.datadoghq.com/service: curryware-nflverse
-    tags.datadoghq.com/version: "1"
+    tags.datadoghq.com/version: "2"
 spec:
   # Twice daily at 08:40 and 20:40 UTC. nflverse publishes new games and stat corrections over the
   # following days, and a run with nothing new changes no rows.
@@ -30,7 +30,7 @@ spec:
             # Unified service tagging for Datadog single step instrumentation.
             tags.datadoghq.com/env: prod
             tags.datadoghq.com/service: curryware-nflverse
-            tags.datadoghq.com/version: "1"
+            tags.datadoghq.com/version: "2"
           annotations:
             # The JSON log lines on stdout are parsed as Python logs.
             ad.datadoghq.com/stats.logs: '[{"source": "python", "service": "curryware-nflverse"}]'
@@ -43,7 +43,7 @@ spec:
               type: RuntimeDefault
           containers:
             - name: stats
-              image: docker.io/scotcurry4/curryware-nflverse:1
+              image: docker.io/scotcurry4/curryware-nflverse:2
               imagePullPolicy: IfNotPresent
               args: ["stats"]
               # The image has no postgres.env, so every POSTGRES_* setting comes from here.
