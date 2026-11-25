@@ -9,7 +9,7 @@ metadata:
     tags.datadoghq.com/service: curryware-nflverse
     tags.datadoghq.com/version: "1"
 spec:
-  # Daily at 12:00 UTC. nflverse publishes new games and stat corrections over the
+  # Twice daily at 08:40 and 20:40 UTC. nflverse publishes new games and stat corrections over the
   # following days, and a run with nothing new changes no rows.
   schedule: "40 8,20 * * *"
   timeZone: Etc/UTC
@@ -46,17 +46,21 @@ spec:
               image: docker.io/scotcurry4/curryware-nflverse:1
               imagePullPolicy: IfNotPresent
               args: ["stats"]
-              envFrom:
-                - secretRef:
-                    name: curryware-postgres
+              # The image has no postgres.env, so every POSTGRES_* setting comes from here.
+              # Credentials use the same curryware-postgres-secrets Secret as the other
+              # curryware workloads.
               env:
                 - name: POSTGRES_HOST
                   value: postgres.curryware.org
+                - name: POSTGRES_PORT
+                  value: "5432"
+                - name: POSTGRES_DATABASE
+                  value: currywarefantasy
                 - name: POSTGRES_USER
                   valueFrom:
                     secretKeyRef:
-                        name: curryware-postgres-secrets
-                        key: postgres-username
+                      name: curryware-postgres-secrets
+                      key: postgres-username
                 - name: POSTGRES_PASSWORD
                   valueFrom:
                     secretKeyRef:
