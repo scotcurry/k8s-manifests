@@ -11,8 +11,12 @@ data:
   server.insecure: "true"
   # Argo CD is served at https://ubuntu-microk8s.curryware.org/argocd so the front-end
   # can have "/". The HTTPRoute (argocd-httproute.yaml) must NOT strip this prefix.
-  # argocd-server reads this only at startup:
+  # Both settings are needed (argo-cd v3.3.2 server/server.go):
+  # - rootpath: the server accepts requests under /argocd/ and strips it itself.
+  # - basehref: index.html gets <base href="/argocd/">. Without it the page says "/",
+  #   so the browser loads /main.js and calls /api/v1/session at the site root, which
+  #   the front-end answers with a 404, and login fails.
+  # argocd-server reads these only at startup:
   #   kubectl rollout restart deploy/argocd-server -n argocd
   server.rootpath: /argocd
-  # Do NOT also set server.basehref: that is for proxies that strip the prefix, and
-  # combined with rootpath it breaks every UI page with a 404.
+  server.basehref: /argocd
