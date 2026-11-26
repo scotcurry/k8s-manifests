@@ -19,7 +19,7 @@ Kustomize or templating. Each file is applied as is.
 ## Layout
 | Folder | Contents |
 |---|---|
-| `curryware-fantasy/` | App workloads in the `curryware` namespace: yahoo-api (8087), java-api-server (8080), kafka-go-processor (no Service), front-end (Service 80 → 8000), and the `curryware-nflverse-stats` CronJob |
+| `curryware-fantasy/` | App workloads in the `curryware` namespace: yahoo-api (8087), java-api-server (8080), kafka-go-processor (no Service), front-end (Next.js, Service 80 → 3000), and the `curryware-nflverse-stats` CronJob |
 | `traefik-ingress/` | Traefik itself is the MicroK8s addon's Helm release `traefik` (chart traefik/traefik 39.0.8); its full values, including the HTTP→HTTPS redirect and JSON/access logging, are in `traefik-helm-values.yaml`. Change Traefik with `helm upgrade` using that file (command in its header), never `kubectl edit`. Gateway API ingress: `traefik` GatewayClass, `traefik-gateway` in namespace `ingress` (HTTP 8000, HTTPS 8443), the strip-prefix Middleware, and the cert-manager Let's Encrypt Issuer. There is no Certificate manifest: the gateway's `cert-manager.io/issuer` annotation makes cert-manager create and own the `ubuntu-microk8s-tls` Certificate. Don't add a second Certificate for that secret |
 | `argocd/` | Argo CD namespace, HTTPRoute, TLS cert, and the `server.insecure` ConfigMap (TLS ends at the gateway) |
 | `datadog/` | Datadog Operator and Helm setup (`deploy-ddagent.sh`, `ddagent-operator.yaml`, `helm-values.yaml`) and a host-agent config template |
@@ -31,7 +31,8 @@ External traffic reaches `https://ubuntu-microk8s.curryware.org` and goes throug
 HTTPRoute per service:
 - `/cw_api/*` → `curryware-yahoo-api:8087`
 - `/java/*` → `curryware-java-api-server-service:8080`
-- `/` → `argocd-server:80`
+- `/argocd/*` → `argocd-server:80` (not stripped: `server.rootpath: /argocd` in `argocd-insecure-server-configmap.yaml`)
+- `/` → `curryware-front-end:80`, the catch-all for anything the longer prefixes don't match
 
 The `strip-cwapi-java-prefix` Middleware removes both `/cw_api` and `/java`. A new path prefix must be added to
 that Middleware as well as to the HTTPRoute. Only namespaces labeled `shared-gateway-access: "true"` can attach
@@ -52,7 +53,7 @@ and also pulls in a `curryware-postgres` Secret through `envFrom`.
 All workloads use Datadog single-step instrumentation through the admission controller, so no tracer is built into
 the images:
 - Pod label `admission.datadoghq.com/enabled: "true"`. Pin the tracer version with an
-  `admission.datadoghq.com/<lang>-lib.version` annotation (java, dotnet, python).
+  `admission.datadoghq.com/<lang>-lib.version` annotation (java, dotnet, js).
 - Unified service tags `tags.datadoghq.com/{env,service,version}` go on both the Deployment and the pod template.
 - The common `DD_*` env vars are `DD_LOGS_INJECTION`, `DD_RUNTIME_METRICS_ENABLED`, `DD_APPSEC_ENABLED`, and
   `DD_DATA_STREAMS_ENABLED` for the Kafka producer and consumer.

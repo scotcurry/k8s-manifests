@@ -20,12 +20,17 @@ spec:
         tags.datadoghq.com/service: "curryware-front-end"
         tags.datadoghq.com/version: "67"
       annotations:
-        admission.datadoghq.com/python-lib.version: v2.18.1
+        admission.datadoghq.com/js-lib.version: v6.27.0
     spec:
       containers:
         - name: curryware-front-end
           image: scotcurry4/curryware-front-end:67
+          ports:
+            - containerPort: 3000
           env:
+          # Server-side only: pages call the Java API over the cluster network.
+          - name: JAVA_API_BASE_URL
+            value: "http://curryware-java-api-server-service:8080"
           - name: DD_PROFILING_ENABLED
             value: "true"
           - name: DD_APPSEC_ENABLED

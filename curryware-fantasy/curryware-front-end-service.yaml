@@ -8,7 +8,8 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 8000
+    # The Next.js standalone server listens on 3000 (PORT in the image).
+    targetPort: 3000
   selector:
     app: curryware-front-end
   type: ClusterIP

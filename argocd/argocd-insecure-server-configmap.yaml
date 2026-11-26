@@ -2,8 +2,17 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: argocd-cmd-params-cm
+  namespace: argocd
   labels:
     app.kubernetes.io/name: argocd-cmd-params-cm
     app.kubernetes.io/part-of: argocd
 data:
+  # TLS ends at the Traefik gateway, so argocd-server serves plain HTTP.
   server.insecure: "true"
+  # Argo CD is served at https://ubuntu-microk8s.curryware.org/argocd so the front-end
+  # can have "/". The HTTPRoute (argocd-httproute.yaml) must NOT strip this prefix.
+  # argocd-server reads this only at startup:
+  #   kubectl rollout restart deploy/argocd-server -n argocd
+  server.rootpath: /argocd
+  # Do NOT also set server.basehref: that is for proxies that strip the prefix, and
+  # combined with rootpath it breaks every UI page with a 404.

@@ -10,11 +10,14 @@ spec:
       sectionName: https
       kind: Gateway
 
+  # Argo CD lives at /argocd so the front-end can have "/". No URLRewrite/strip-prefix
+  # filter: argocd-server expects the full /argocd path (server.rootpath in
+  # argocd-insecure-server-configmap.yaml).
   rules:
     - matches:
         - path:
             type: PathPrefix
-            value: /
+            value: /argocd
 
       backendRefs:
         - name: argocd-server

@@ -1,0 +1,25 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: curryware-front-end-httproute
+  namespace: curryware
+spec:
+  parentRefs:
+    - name: traefik-gateway
+      namespace: ingress
+      sectionName: https
+      kind: Gateway
+
+  # Catch-all for the site. Longer prefixes (/java, /cw_api, /argocd) still match
+  # their own routes first, so this only gets what nothing else claims. No
+  # strip-prefix filter: the front-end is served from the root.
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /
+
+      backendRefs:
+        - name: curryware-front-end
+          namespace: curryware
+          port: 80
