@@ -22,7 +22,7 @@ metadata:
     app.kubernetes.io/component: available-players-load
     tags.datadoghq.com/env: prod
     tags.datadoghq.com/service: curryware-nflverse
-    tags.datadoghq.com/version: "3"
+    tags.datadoghq.com/version: "4"
 spec:
   schedule: "0 0,6,12,18 * * *"
   timeZone: Etc/UTC
@@ -43,7 +43,7 @@ spec:
             # Unified service tagging for Datadog single step instrumentation.
             tags.datadoghq.com/env: prod
             tags.datadoghq.com/service: curryware-nflverse
-            tags.datadoghq.com/version: "3"
+            tags.datadoghq.com/version: "4"
           annotations:
             # The JSON log lines on stdout are parsed as Python logs.
             ad.datadoghq.com/available-players.logs: '[{"source": "python", "service": "curryware-nflverse"}]'
@@ -56,7 +56,7 @@ spec:
               type: RuntimeDefault
           containers:
             - name: available-players
-              image: docker.io/scotcurry4/curryware-nflverse:3
+              image: docker.io/scotcurry4/curryware-nflverse:4
               imagePullPolicy: IfNotPresent
               args: ["available-players", "--game-id", "470", "--league-id", "838859"]
               # The image has no postgres.env, so every POSTGRES_* setting comes from here.
@@ -120,7 +120,7 @@ metadata:
     app.kubernetes.io/component: available-players-load
     tags.datadoghq.com/env: prod
     tags.datadoghq.com/service: curryware-nflverse
-    tags.datadoghq.com/version: "3"
+    tags.datadoghq.com/version: "4"
 spec:
   schedule: "15 0,6,12,18 * * *"
   timeZone: Etc/UTC
@@ -141,7 +141,7 @@ spec:
             # Unified service tagging for Datadog single step instrumentation.
             tags.datadoghq.com/env: prod
             tags.datadoghq.com/service: curryware-nflverse
-            tags.datadoghq.com/version: "3"
+            tags.datadoghq.com/version: "4"
           annotations:
             # The JSON log lines on stdout are parsed as Python logs.
             ad.datadoghq.com/available-players.logs: '[{"source": "python", "service": "curryware-nflverse"}]'
@@ -154,7 +154,7 @@ spec:
               type: RuntimeDefault
           containers:
             - name: available-players
-              image: docker.io/scotcurry4/curryware-nflverse:3
+              image: docker.io/scotcurry4/curryware-nflverse:4
               imagePullPolicy: IfNotPresent
               args: ["available-players", "--game-id", "470", "--league-id", "523652"]
               # The image has no postgres.env, so every POSTGRES_* setting comes from here.
