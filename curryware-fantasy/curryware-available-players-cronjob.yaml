@@ -1,0 +1,210 @@
+# Replaces each Yahoo league's available players in yahoo_available_players
+# (`curryware-nflverse available-players --game-id G --league-id L`), one CronJob per
+# league. Each run deletes and reloads only its own league's rows in one transaction,
+# so readers never see an empty list and a failed run keeps the previous one.
+#
+# Every 6 hours (00:00, 06:00, 12:00, 18:00 UTC); the second league starts 15 minutes
+# later so the two don't call the available-players Cloud Function at once. A run
+# takes about 20 s.
+#
+# The curryware-nflverse build (.github/workflows/build-image.yaml) sets the image tag
+# and tags.datadoghq.com/version in this file and in curryware-load-stats-cronjob.yaml.
+#
+# Run once by hand:
+#   kubectl -n curryware create job --from=cronjob/curryware-available-players-838859 ap-manual-1
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: curryware-available-players-838859
+  labels:
+    app.kubernetes.io/name: curryware-nflverse
+    app.kubernetes.io/component: available-players-load
+    tags.datadoghq.com/env: prod
+    tags.datadoghq.com/service: curryware-nflverse
+    tags.datadoghq.com/version: "3"
+spec:
+  schedule: "0 0,6,12,18 * * *"
+  timeZone: Etc/UTC
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 1800
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 600
+      ttlSecondsAfterFinished: 86400
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: curryware-nflverse
+            app.kubernetes.io/component: available-players-load
+            # Unified service tagging for Datadog single step instrumentation.
+            tags.datadoghq.com/env: prod
+            tags.datadoghq.com/service: curryware-nflverse
+            tags.datadoghq.com/version: "3"
+          annotations:
+            # The JSON log lines on stdout are parsed as Python logs.
+            ad.datadoghq.com/available-players.logs: '[{"source": "python", "service": "curryware-nflverse"}]'
+        spec:
+          restartPolicy: Never
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: available-players
+              image: docker.io/scotcurry4/curryware-nflverse:3
+              imagePullPolicy: IfNotPresent
+              args: ["available-players", "--game-id", "470", "--league-id", "838859"]
+              # The image has no postgres.env, so every POSTGRES_* setting comes from here.
+              env:
+                - name: POSTGRES_HOST
+                  value: postgres.curryware.org
+                - name: POSTGRES_PORT
+                  value: "5432"
+                - name: POSTGRES_DATABASE
+                  value: currywarefantasy
+                - name: POSTGRES_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: curryware-postgres-secrets
+                      key: postgres-username
+                - name: POSTGRES_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: curryware-postgres-secrets
+                      key: postgres-password
+                # Adds dd.trace_id and dd.span_id to each JSON log line, linking
+                # logs to the run's trace.
+                - name: DD_LOGS_INJECTION
+                  value: "true"
+                - name: DD_ENV
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['tags.datadoghq.com/env']
+                - name: DD_SERVICE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['tags.datadoghq.com/service']
+                - name: DD_VERSION
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['tags.datadoghq.com/version']
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 128Mi
+                limits:
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+          volumes:
+            - name: tmp
+              emptyDir: {}
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: curryware-available-players-523652
+  labels:
+    app.kubernetes.io/name: curryware-nflverse
+    app.kubernetes.io/component: available-players-load
+    tags.datadoghq.com/env: prod
+    tags.datadoghq.com/service: curryware-nflverse
+    tags.datadoghq.com/version: "3"
+spec:
+  schedule: "15 0,6,12,18 * * *"
+  timeZone: Etc/UTC
+  concurrencyPolicy: Forbid
+  startingDeadlineSeconds: 1800
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      activeDeadlineSeconds: 600
+      ttlSecondsAfterFinished: 86400
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: curryware-nflverse
+            app.kubernetes.io/component: available-players-load
+            # Unified service tagging for Datadog single step instrumentation.
+            tags.datadoghq.com/env: prod
+            tags.datadoghq.com/service: curryware-nflverse
+            tags.datadoghq.com/version: "3"
+          annotations:
+            # The JSON log lines on stdout are parsed as Python logs.
+            ad.datadoghq.com/available-players.logs: '[{"source": "python", "service": "curryware-nflverse"}]'
+        spec:
+          restartPolicy: Never
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 10001
+            seccompProfile:
+              type: RuntimeDefault
+          containers:
+            - name: available-players
+              image: docker.io/scotcurry4/curryware-nflverse:3
+              imagePullPolicy: IfNotPresent
+              args: ["available-players", "--game-id", "470", "--league-id", "523652"]
+              # The image has no postgres.env, so every POSTGRES_* setting comes from here.
+              env:
+                - name: POSTGRES_HOST
+                  value: postgres.curryware.org
+                - name: POSTGRES_PORT
+                  value: "5432"
+                - name: POSTGRES_DATABASE
+                  value: currywarefantasy
+                - name: POSTGRES_USER
+                  valueFrom:
+                    secretKeyRef:
+                      name: curryware-postgres-secrets
+                      key: postgres-username
+                - name: POSTGRES_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: curryware-postgres-secrets
+                      key: postgres-password
+                # Adds dd.trace_id and dd.span_id to each JSON log line, linking
+                # logs to the run's trace.
+                - name: DD_LOGS_INJECTION
+                  value: "true"
+                - name: DD_ENV
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['tags.datadoghq.com/env']
+                - name: DD_SERVICE
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['tags.datadoghq.com/service']
+                - name: DD_VERSION
+                  valueFrom:
+                    fieldRef:
+                      fieldPath: metadata.labels['tags.datadoghq.com/version']
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 128Mi
+                limits:
+                  memory: 256Mi
+              securityContext:
+                allowPrivilegeEscalation: false
+                readOnlyRootFilesystem: true
+                capabilities:
+                  drop: ["ALL"]
+              volumeMounts:
+                - name: tmp
+                  mountPath: /tmp
+          volumes:
+            - name: tmp
+              emptyDir: {}

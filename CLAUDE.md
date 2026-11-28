@@ -19,7 +19,7 @@ Kustomize or templating. Each file is applied as is.
 ## Layout
 | Folder | Contents |
 |---|---|
-| `curryware-fantasy/` | App workloads in the `curryware` namespace: yahoo-api (8087), java-api-server (8080), kafka-go-processor (no Service), front-end (Next.js, Service 80 → 3000), and the `curryware-nflverse-stats` CronJob |
+| `curryware-fantasy/` | App workloads in the `curryware` namespace: yahoo-api (8087), java-api-server (8080), kafka-go-processor (no Service), front-end (Next.js, Service 80 → 3000), the `curryware-nflverse-stats` CronJob, and the `curryware-available-players-838859`/`-523652` CronJobs (same image) |
 | `traefik-ingress/` | Traefik itself is the MicroK8s addon's Helm release `traefik` (chart traefik/traefik 39.0.8); its full values, including the HTTP→HTTPS redirect and JSON/access logging, are in `traefik-helm-values.yaml`. Change Traefik with `helm upgrade` using that file (command in its header), never `kubectl edit`. Gateway API ingress: `traefik` GatewayClass, `traefik-gateway` in namespace `ingress` (HTTP 8000, HTTPS 8443), the strip-prefix Middleware, and the cert-manager Let's Encrypt Issuer. There is no Certificate manifest: the gateway's `cert-manager.io/issuer` annotation makes cert-manager create and own the `ubuntu-microk8s-tls` Certificate. Don't add a second Certificate for that secret |
 | `argocd/` | Argo CD namespace, HTTPRoute, TLS cert, and the `server.insecure` ConfigMap (TLS ends at the gateway) |
 | `datadog/` | Datadog Operator and Helm setup (`deploy-ddagent.sh`, `ddagent-operator.yaml`, `helm-values.yaml`) and a host-agent config template |
